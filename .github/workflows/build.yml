@@ -1,0 +1,44 @@
+on:
+  push:
+    branches: master
+
+name: Render and Publish
+
+env:
+  DEST_ORG: ${{ secrets.DEST_ORG }}
+  DEST_REPO: ${{ secrets.DEST_REPO }}
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2 
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Set up quasar and yarn and build
+        run: |
+          npm i -g @quasar/cli
+          #npm install -g corepack
+          #corepack prepare yarn@stable --activate
+          npm install
+          quasar build
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: 'dist'
+          destination-github-username: ${{ vars.DEST_ORG }}
+          destination-repository-name: ${{ vars.DEST_REPO }}
+          user-email: surgbc@gmail.com
+          target-branch: gh-pages
+
+      - name: Publish to GitHub Pages (and render)
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions

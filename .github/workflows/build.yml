@@ -5,8 +5,9 @@ on:
 name: Render and Publish
 
 env:
-  DEST_ORG: ${{ secrets.DEST_ORG }}
-  DEST_REPO: ${{ secrets.DEST_REPO }}
+  DEST_ORG: ${{ vars.DEST_ORG }}
+  DEST_REPO: ${{ vars.DEST_REPO }}
+  PUBLIC_PATH: ${{ vars.PUBLIC_PATH }}
 
 jobs:
   build-deploy:

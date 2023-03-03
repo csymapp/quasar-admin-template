@@ -60,7 +60,7 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: process.env.PUBLIC_PATH === undefined ? "/" : `/${process.env.PUBLIC_PATH}`
+      publicPath: process.env.PUBLIC_PATH === undefined ? "/" : `${process.env.PUBLIC_PATH}`,
       // analyze: true,
       // env: {},
       // rawDefine: {}

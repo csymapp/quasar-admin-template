@@ -30,15 +30,8 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: 'dist'
+          source-directory: 'dist/spa'
           destination-github-username: ${{ vars.DEST_ORG }}
           destination-repository-name: ${{ vars.DEST_REPO }}
           user-email: surgbc@gmail.com
           target-branch: gh-pages
-
-      - name: Publish to GitHub Pages (and render)
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
